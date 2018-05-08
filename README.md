@@ -209,5 +209,55 @@ https://localhost:3000/#/<your-DAO-address-generated-before>
 Make your changes, update version in `arapp.json` and run (replace ENS address by your previous one):
 
 ```
-aragon publish aragon publish --apm.ipfs.rpc.host localhost --apm.ens-registry 0xB9462EF3441346dBc6E49236Edbb0dF207db09B7 --key <the-first-private-key-that-aragon-run-gave-you>
+aragon publish --apm.ipfs.rpc.host localhost --apm.ens-registry 0xB9462EF3441346dBc6E49236Edbb0dF207db09B7 --key <the-first-private-key-that-aragon-run-gave-you>
+```
+
+If you are changing your contracts, then you have to compile, deploy, make sure that you update your version in `arapp.json` to a major one and pass the new deployed contract to the publish script:
+
+```
+truffle compile
+truffle exec scripts/deploy.js --netowrk rpc
+aragon \
+    --apm.ipfs.rpc.host localhost \
+    --apm.ens-registry 0xB9462EF3441346dBc6E49236Edbb0dF207db09B7 \
+    --key <the-first-private-key-that-aragon-run-gave-you> \
+    publish <the-contract-address-just-generated-in-last-step>
+```
+
+Besides you have to manually upgrade it in your DAO too, e.g., open a `truffle console` and run:
+
+```
+> Kernel.at("0x9A3B7C7EBcE69ebfab795cd28Dbc7172B93f88F3").setApp("0xf1f3eb40f5bc1ad1344716ced8b8a0431d840b5783aea1fd01786bc26f35ac0f", "0x803f5de74ffb6f2a3b102bad434681a663525dea27c69ba347f57b370f2eb555", "0xB529f14AA8096f943177c09Ca294Ad66d2E08b1f")
+```
+
+Where first param (`0xf1f3eb40f5bc1ad1344716ced8b8a0431d840b5783aea1fd01786bc26f35ac0f`) is `APP_BASES_NAMESPACE` and second one (`0x803f5de74ffb6f2a3b102bad434681a663525dea27c69ba347f57b370f2eb555`) is your app name (you can get it from `aragon run` output). Last parameter is your contract last version address.
+Replace also the address of your DAO to instantiate kernel.
+
+If you have added new permissions to the app, you will have to create them in your DAO, e.g., with `truffle console`:
+
+```
+> ACL.at("0x1e28bcd5349a5b0ea7a4cdd70441a734cce360bb").createPermission("0x627306090abab3a6e1400e9345bc60c78a8bef57", "0x7ceB61328BD062D3534C6529823d0990653A9aC6", "0x807a48ea404c453cc6a470f28aa312d410deebe15fd841217c9ccc9924c0a7e1", "0x627306090abab3a6e1400e9345bc60c78a8bef57", { from: "0x627306090abab3a6e1400e9345bc60c78a8bef57" } )
+```
+First parameter is the granted adress (first account in this case), second one is the proxy address of your App that you can get from `aragon run` output, third one is the `keccak256` hash of your new role ("DEL_ROLE" in this case) and last one is the permission manager (first account again).
+
+You can get your ACL address with:
+
+```
+> Kernel.at("0x9A3B7C7EBcE69ebfab795cd28Dbc7172B93f88F3").acl()
+```
+
+To get the the `keccak256` hash of your role you can use this simple Javascript snippet:
+
+```
+const sha3 = require('js-sha3')
+
+console.log('DEL ROLE', sha3.keccak256('DEL_ROLE'))
+```
+
+or scroll down to "SHA3" section [here](https://www.mycrypto.com/helpers.html), or [here](http://emn178.github.io/online-tools/keccak_256.html).
+
+You can check your versions with:
+
+```
+aragon --apm.ipfs.rpc.host localhost --apm.ens-registry 0xB9462EF3441346dBc6E49236Edbb0dF207db09B7 versions
 ```

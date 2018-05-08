@@ -1,10 +1,15 @@
 {
   "appName": "mtcr.aragonpm.eth",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "roles": [
     {
       "name": "Add entry",
       "id": "ADD_ROLE",
+      "params": []
+    },
+    {
+      "name": "Del entry",
+      "id": "DEL_ROLE",
       "params": []
     }
   ],

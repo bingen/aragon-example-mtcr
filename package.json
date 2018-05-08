@@ -5,7 +5,8 @@
   },
   "devDependencies": {
     "@aragon/cli": "^2.2.0",
-    "truffle": "^4.1.7"
+    "@aragon/test-helpers": "^1.0.0",
+    "truffle": "4.0.5"
   },
   "scripts": {
     "test": "truffle test",
