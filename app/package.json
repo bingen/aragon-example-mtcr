@@ -1,0 +1,15 @@
+{
+  "name": "mtcr_frontend",
+  "version": "1.0.0",
+  "description": "Frontend for mTCR",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aragon/client": "^1.0.0-beta.7"
+  }
+}
