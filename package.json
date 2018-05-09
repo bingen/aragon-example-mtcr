@@ -6,6 +6,9 @@
   "devDependencies": {
     "@aragon/cli": "^2.2.0",
     "@aragon/test-helpers": "^1.0.0",
+    "@aragon/os": "^3.1.4",
+    "eth-ens-namehash": "^2.0.8",
+    "js-sha3": "^0.7.0",
     "truffle": "4.0.5"
   },
   "scripts": {

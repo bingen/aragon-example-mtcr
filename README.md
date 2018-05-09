@@ -8,8 +8,9 @@ This is an example of a simple app created using aragon cli tool. Based on [this
 - [**@aragon/cli**](https://github.com/aragon/aragon-dev-cli): Used to publish the application
 - [**webpack-cli**](https://webpack.js.org/api/cli/): Or the bundler you like, to build the frontend.
 
+This repo has git tags (`v1`, `v2`, `v3`) that appear in this guide in parenthesis to indicate the different steps of the build process. You can checkout each of them to see the result.
 
-## Init app
+## Init app (v1)
 
 ```sh
 aragon-dev-cli init mtcr.aragonpm.eth bare
@@ -204,7 +205,7 @@ Now you can go to:
 https://localhost:3000/#/<your-DAO-address-generated-before>
 ```
 
-## Upgrading
+## Upgrading (v2)
 
 Make your changes, update version in `arapp.json` and run (replace ENS address by your previous one):
 
@@ -261,3 +262,15 @@ You can check your versions with:
 ```
 aragon --apm.ipfs.rpc.host localhost --apm.ens-registry 0xB9462EF3441346dBc6E49236Edbb0dF207db09B7 versions
 ```
+
+## Add Voting into the Mix (v3)
+
+Let's say you want to integrate with another existing Aragon App, Voting in this case. First modify your contract logic. If you didn't do it, make sure you have your dependencies too.
+
+Then you have to manually add the Voting app to your DAO and adjust permissions. Have a look at the [migration script]() created for it and run it with:
+
+```
+ENS=0xB9462EF3441346dBc6E49236Edbb0dF207db09B7 DAO=0x9A3B7C7EBcE69ebfab795cd28Dbc7172B93f88F3 APP=0x7ceB61328BD062D3534C6529823d0990653A9aC6 truffle migrate --network rpc --reset
+```
+
+(adjusting of course to your own addresses)
